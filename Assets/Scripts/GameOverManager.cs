@@ -10,7 +10,7 @@ public class GameOverManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        score.GetComponent<TextMeshProUGUI>().SetText("Your Score "+ScoreHandler.score);
+        score.GetComponent<TextMeshProUGUI>().SetText("Your Score: "+ScoreHandler.score);
     }
 
     // Update is called once per frame

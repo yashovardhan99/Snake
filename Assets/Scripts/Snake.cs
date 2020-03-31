@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class Snake : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class Snake : MonoBehaviour
     public event System.Action gameOver;
     public bool isGameOver;
     public int size = 2;
+    public TextMeshProUGUI score;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +31,8 @@ public class Snake : MonoBehaviour
         snake[0] = Instantiate(snakePrefab, -Vector2.one, Quaternion.identity);
         // print(snake.Length);
         StartCoroutine(moveRoutine());
+        score = score.GetComponent<TextMeshProUGUI>();
+        score.SetText(ScoreHandler.score.ToString());
 
         Instantiate(foodPrefab, new Vector2(Random.Range(-gameWidth, gameWidth), Random.Range(-gameHeight, gameHeight)), Quaternion.identity);
     }
@@ -94,6 +99,7 @@ public class Snake : MonoBehaviour
     }
     public void requestNewFood() {
         StopCoroutine(spawnFoodWithDelay());
+        score.SetText(ScoreHandler.score.ToString());
         StartCoroutine(spawnFoodWithDelay());
     }
     public IEnumerator spawnFoodWithDelay() {
