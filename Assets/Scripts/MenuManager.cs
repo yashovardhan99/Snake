@@ -7,8 +7,15 @@ using TMPro;
 public class MenuManager : MonoBehaviour
 {
     public TextMeshProUGUI highScoreText;
+    bool helpLoaded;
     void Start() {
         updateHighScore();
+    }
+    void sceneUnloaded(Scene s){
+        if(s.name == "Help") {
+            helpLoaded = false;
+            SceneManager.sceneUnloaded -= sceneUnloaded;
+        }
     }
     public void updateHighScore() {
         int highScore = PlayerPrefs.GetInt(GameOverManager.HighScoreKey, 0);
@@ -17,6 +24,9 @@ public class MenuManager : MonoBehaviour
     void Update() {
         if(Input.GetKeyDown(KeyCode.Space)) {
             startGame();
+        }
+        if(Input.GetKeyDown(KeyCode.H)){
+            openHelp();
         }
         if(Input.GetKeyDown(KeyCode.Escape)) {
             quitGame();
@@ -30,5 +40,12 @@ public class MenuManager : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
         #endif
         Application.Quit();
+    }
+    public void openHelp() {
+        if(!helpLoaded) {
+            helpLoaded = true;
+            SceneManager.LoadSceneAsync("Help", LoadSceneMode.Additive);
+            SceneManager.sceneUnloaded += sceneUnloaded;
+        }   
     }
 }
